@@ -1,0 +1,80 @@
+﻿@model Editor.Models.EditorModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Track Changes Editor</title>
+    <script src="/lib/ckeditor/ckeditor.js"></script>
+    <script src="/lib/ckeditor/plugins/lite/lite-interface.js"></script>
+    <script src="/lib/ckeditor/config.js"></script>
+    <script src="/lib/ckeditor/samples/js/sample.js"></script>
+    <link rel="stylesheet" href="/lib/ckeditor/samples/css/samples.css">
+    <link rel="stylesheet" href="/lib/ckeditor/samples/toolbarconfigurator/lib/codemirror/neo.css">
+</head>
+<body id="main" style="margin: 10px">
+    <nav class="navigation-a">
+        <div class="grid-container">
+            
+            <ul class="navigation-a-left grid-width-70">
+                <li><a style="font-size: 20px;">Editor with Track changes</a></li>
+            </ul>
+        </div>
+    </nav>
+    <br />
+        Make changes and click save (Floppy icon in the toolbar)
+    <br />
+    <u>Track changes toolbar is last icons in the toolbar</u>
+
+    @using (Html.BeginForm())
+    {
+
+    <textarea name="editor1" id="editor1">		
+        @Html.Raw(Model.Text)
+	</textarea>
+    }
+    <script>
+
+        CKEDITOR.replace('editor1');
+
+        // initSample();
+
+        CKEDITOR.editorConfig = function (config) {
+            // Define changes to default configuration here. For example:
+            // config.language = 'fr';
+            // config.uiColor = '#AADC6E';
+            config.height = "500px";
+            //config.width = window.innerWidth - 50;
+            config.lite = (config.lite || {});
+            config.lite.userName = "@Model.UserName";
+
+            config.toolbarGroups = [
+                { name: 'document', groups: ['mode', 'document', 'doctools'] },
+                { name: 'clipboard', groups: ['clipboard', 'undo'] },
+                { name: 'editing', groups: ['find', 'selection', 'spellchecker', 'editing'] },
+                { name: 'forms', groups: ['forms'] },
+                '/',
+                { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
+                { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph'] },
+                { name: 'links', groups: ['links'] },
+                { name: 'insert', groups: ['insert'] },
+                '/',
+                { name: 'styles', groups: ['styles'] },
+                { name: 'colors', groups: ['colors'] },
+                { name: 'tools', groups: ['tools'] },
+                { name: 'others', groups: ['others'] },
+                { name: 'about', groups: ['about'] },
+                '/',
+                { name: 'lite', groups: ['lite'] }
+            ];
+
+            config.removeButtons = 'Source';
+        };
+    </script>
+
+</body>
+</html>
